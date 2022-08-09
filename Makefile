@@ -98,7 +98,7 @@ $(TMP_DIR)cpu.o: src/arch/x86/cpu.c
 	$(CCi686) $(KERNEL_FLAGS) $^ -c -o $@
 
 $(TMP_DIR)cpuid.o: src/arch/x86/cpuid.c
-	$(CCi686) $(KERNEL_FLAGS) -save-temps $^ -c -o $@
+	$(CCi686) $(KERNEL_FLAGS) $^ -c -o $@
 
 $(TMP_DIR)ports.o: src/arch/x86/ports.c
 	$(CCi686) $(KERNEL_FLAGS)  $^ -c -o $@ 
