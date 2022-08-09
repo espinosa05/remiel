@@ -45,7 +45,6 @@ QEMU=qemu-system-i386
 QEMU_FLAGS=-cpu `cat .conf/cpu`  -monitor stdio -m 1024  -no-shutdown\
 			 -drive file=
 
-# ONJECT FILE DEPENDENCIES
 OBJ=$(TMP_DIR)stage0.o\
 	$(TMP_DIR)stage1.o\
 	$(TMP_DIR)kernel_setup.o\
