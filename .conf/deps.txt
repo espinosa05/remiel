@@ -1,0 +1,11 @@
+
+
+# list of dependencies
+
+qemu-arch-extra
+i686-elf-binutils
+open-watcomv2
+nasm
+cat
+
+

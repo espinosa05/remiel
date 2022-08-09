@@ -1,0 +1,47 @@
+the BIOS bootloader sets up a minimal gdt and switches to protected mode.
+in Protected mode the kernel sets up paging and
+a minimal framebuffer for VESA devices.
+
+
+the EFI loader makes use of the GOP and sets up a framebuffer
+
+
+the kernel setup gets loaded with the required graphics info provided by the EFI
+or BIOS bootloader
+
+it needs to satisfy following requirements:
+
+framebuffer address
+framebuffer size
+bpp (bits per pixel)
+
+
+example struct:
+	
+	struct graphics_info {
+		bool graphics_mode;		/* true = gfx, false = text */
+		uint16_t width;			/* gfx = px, txt = col */
+		uint16_t height;		/* gfx = px, txt = rows */
+		uint8_t timing;			// idk about this i'm too stupid rn
+		uintptr_t frame_buffer_base; // location of the framebuffer
+		struct color_info *color;
+	};
+
+	struct color_info {
+		uint32_t fg;
+		uint32_t bg;
+	};
+
+both EFI-GOP and VESA BIOS should be able to satisfy this structure.
+Note that for VESA BIOS the V86 functions are used to set the mode via
+protected mode and not real mode.
+
+struct graphics_info should be used first in k_setup and is independent
+from EFI and BIOS
+
+the bootloader pushes the arguments to the stack in reverse order
+(we need to setup a bigger stack because the current one only has 2048 bytes.. F)
+
+
+
+
