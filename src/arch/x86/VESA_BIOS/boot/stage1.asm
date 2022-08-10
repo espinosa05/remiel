@@ -15,12 +15,12 @@ _entry32:
 	mov fs, ax
 	; this always stays zero
 	mov gs, ax
+
+	mov es:di, eax
 	; es:di holds the address of the vbe structure
 	;mov es:di, DWORD vesa_info_block_structure
 	mov esp, _stack_top
-	;push DWORD es:di
-	push 0
-	push 0
+	push DWORD es:di
 	call kernel_setup
 	
 hlt:
@@ -34,4 +34,5 @@ _stack_bottom:
 _stack_top:
 section .init
 
+%include "vga_struct.asm"
 %include "vbe_struct.asm"

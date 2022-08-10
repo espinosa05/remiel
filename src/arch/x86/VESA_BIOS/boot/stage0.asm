@@ -13,9 +13,9 @@ _entry16:
 
 
 	mov ah,	READ_DISK ; 0x2
-	; read 32 sectors of disk (32 * 512 = 16384 bytes -> 16kb)
+	; read 128 sectors of disk (128 * 512 = 65536 bytes -> 64kb)
 	mov al,	0x80
-	mov bx, 0x7e00
+	mov bx, 0x7e00 ; address of sector 2 (0x7c00 + 512)
 	mov ch, 0 ; cylinder 0
 	mov cl, 2 ; starting from sector 2	
 	mov dh, 0 ; select head 0
@@ -24,9 +24,9 @@ _entry16:
 	int DISK_SERVICE_13h
 	; when the carry flag is set
 	; the service routine encountered an error
-	jc disk_error ; jump if the carry bit is set
-	; get the resolution from user input
+	jc disk_error ; jump if the carry flag is set
 
+	
 	cli ; clear the interrupt flag
 	; load the address of the gdt descriptor (located in gdt.asm)
 	lgdt [gdt_descriptor]
@@ -35,7 +35,7 @@ _entry16:
 	; cr0 can't be set directly
 	; so we modify it through eax
 	mov eax, cr0 ; copy the contents
-	or eax, 1 ; set the protected-mode-enable-bit (0x1)
+	or eax, PE_BIT ; set the protected-mode-enable-bit (0x1)
 	mov cr0, eax ; update cr0
 	
 	; we update IP with CS=CODE_SEGMENT_32
@@ -45,6 +45,11 @@ disk_error:
 	mov eax, 0xDE ; when the disk interrupt fails we throw this error
 	hlt			 
 	jmp disk_error
+
+global adapter_info_struct_address
+adapter_info_struct_address:
+	dd	0 ; store the address of the graphics info block
+
 
 %include "gdt.asm" ; global descriptor table
 

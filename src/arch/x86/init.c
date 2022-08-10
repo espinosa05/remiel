@@ -47,14 +47,14 @@ kernel_init()
 	tty_puts(x86_info.vendor_string);
 	tty_puts("\n");
 
-	if(is_cpuid_supported())
+	if(false)
 	{
 		tty_puts("features: cpuid");
 		
 	}
 	else
 	{
-			
+		tty_puts("what processor are you using my guy?\nwtf it's 2022");		
 	}
 
 	return 0;

@@ -11,6 +11,8 @@
 // so the other functions can make use of it through
 // the tty_controller_t structure
 
+#define TOP_LEFT_CORNER 0
+
 struct color
 {
 		uint32_t black;
@@ -37,6 +39,7 @@ typedef struct
 	uint8_t color_depth;
 	int set_fg;
 	int set_bg;
+	uint16_t cursor_position;
 	int rows;
 	int cols;
 	uint16_t fb_size;

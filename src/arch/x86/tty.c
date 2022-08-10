@@ -1,11 +1,13 @@
+// freestanding libs
+#include <stdint.h>
+
+// remiel libs
 #include <x86/graphics/tty.h>
-#include <remiel/types/remiel_types.h>
 #include <x86/VGA/VGA.h>
 #include <x86/VESA/VESA.h>
+#include <remiel/types/remiel_types.h>
 #include <fmt/fmt.h>
 #include <remiel/init.h>
-#include <stdarg.h>
-#include <stdint.h>
 
 extern tty_controller_t tty;
 
@@ -13,15 +15,14 @@ extern tty_controller_t tty;
 void
 tty_puts(const char* fmt)
 {
-	static uint16_t offset = 0;
-	uint16_t newline = 0;
-
+	static uint16_t newline = 1;
+	static uint16_t	offset = 0;
 	do
 	{
 		if(*fmt == '\n')
 		{
 			newline++;
-			offset = newline * 80;
+			tty.cursor_position = newline * tty.cols;
 		}
 		else if(*fmt == '\t')
 		{
@@ -33,7 +34,7 @@ tty_puts(const char* fmt)
 		}
 		else
 		{
-			tty.putc(*fmt, offset); // if no format was given, we simply
+			tty.putc(*fmt, tty.cursor_position); 
 			offset++;
 			
 		}
@@ -45,7 +46,7 @@ tty_puts(const char* fmt)
 
 
 void
-set_vesa_device(tty_controller_t *tty)
+set_vesa_device(tty_controller_t *tty, graphics_mode_t *vesa_mode)
 {
 	// TODO: write the functions and give the addresses
 	
@@ -62,17 +63,15 @@ set_vesa_device(tty_controller_t *tty)
 
 
 void
-set_vga_device(tty_controller_t *tty)
+set_vga_device(tty_controller_t *tty, graphics_mode_t *vga_mode)
 {
-		// for now, we only accept int 0x10 ah 0, al 2
-		// as a mode (25x80 tty mode) so we lock it at
-		// 4 bits
-		tty->color_depth 			= 4;
+		tty->color_depth 			= vga_mode->color_depth;
+		tty->cursor_position		= TOP_LEFT_CORNER;
 		tty->putc 					= vga_tty_putc;
 		tty->cls					= vga_tty_cls;
-		tty->rows					= 25;
-		tty->cols					= 80;
-		tty->fb_size 				= tty->cols * tty->cols;
+		tty->rows					= vga_mode->rows;
+		tty->cols					= vga_mode->cols;
+		tty->fb_size 				= vga_mode->buff_size;
 
 		tty->colors.black			= vga_black;
 		tty->colors.blue			= vga_blue;

@@ -4,12 +4,14 @@
 #include <stdint.h>
 
 
-#define _25_80_TEXT_BUFFER 0xb8000
+0xb8000
 
 #define DISABLE_CURSOR()
 
 #define TTY_SET_COLOR(FG, BG)\
 	(FG | BG << 4)
+
+#define TOP_LEFT_CORNER 0
 
 void vga_tty_putc(char c, uint16_t off);
 

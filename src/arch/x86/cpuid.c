@@ -33,6 +33,6 @@ cpuid(struct i386_regs *reg)
 bool
 is_cpuid_supported()
 {
-
+	
 	
 }
