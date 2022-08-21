@@ -5,7 +5,8 @@
 
 #define NO_VESA_DEVICE 0
 
-__attribute__((packed)) struct vesa_info_block
+__attribute__((packed)) struct 
+__attribute__((packed)) struct vesa_info_structure
 {
 	uint16_t		attributes;
 	uint8_t			window_a;

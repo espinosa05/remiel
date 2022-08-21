@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-
-0xb8000
+#define VGA_TEXT_BUFFER 0xb8000
+#define VGA_GFX_BUFFER	0xa0000
 
 #define DISABLE_CURSOR()
 

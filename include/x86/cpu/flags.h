@@ -1,7 +1,8 @@
 #ifndef _X86_CPU_FLAGS_H
 #define _X86_CPU_FLAGS_H
 
-typedef enum {not_set, set}flags_register_t;
+#include <x86/cpu/cpu.h>
+#include <stdint.h>
 
 #define FLAGS_CF 1
 #define FLAGS_PF (1 << 2)
@@ -22,4 +23,10 @@ typedef enum {not_set, set}flags_register_t;
 #define EFlAGS_VIP (1 << 20)
 #define EFLAGS_ID (1 << 21)
 
+// i don't know if this actually works but let's just pretend it does
+
+#define SAVE_FLAGS() PUSHFD()
+#define RESTORE_FLAGS() POPFD()
+
+uint32_t get_flags_register_value();
 #endif // _X86_CPU_FLAGS_H

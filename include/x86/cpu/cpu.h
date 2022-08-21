@@ -11,35 +11,35 @@
 typedef struct
 {
 	char vendor_string[13];
-	bool fpu;
-	bool vme;
-	bool de;
-	bool pse;
-	bool tsc;
-	bool msr;
-	bool pae;
-	bool mce;
-	bool cx8;
-	bool apic;
-	bool sep;
-	bool pge;
-	bool mca;
-	bool cmov;
-	bool pat;
-	bool pse_36;
-	bool psn;
-	bool cflsh;
-	bool ds;
-	bool acpi;
-	bool mmx;
-	bool fxsr;
-	bool sse;
-	bool sse2;
-	bool sse3;
-	bool ss;
-	bool htt;
-	bool tm;
-	bool pbe;
+  bool has_fpu;
+	bool has_vme;
+	bool has_de;
+	bool has_pse;
+	bool has_tsc;
+	bool has_msr;
+	bool has_pae;
+	bool has_mce;
+	bool has_cx8;
+	bool has_apic;
+	bool has_sep;
+	bool has_pge;
+	bool has_mca;
+	bool has_cmov;
+	bool has_pat;
+	bool has_pse_36;
+	bool has_psn;
+	bool has_cflsh;
+	bool has_ds;
+	bool has_acpi;
+	bool has_mmx;
+	bool has_fxsr;
+	bool has_sse;
+	bool has_sse2;
+	bool has_sse3;
+	bool has_ss;
+	bool has_htt;
+	bool has_tm;
+	bool has_pbe;
 }
 cpu_info_t;
 
@@ -68,7 +68,7 @@ void print_vendor_string(const char *vendor_string);
 
 void print_cpu_features(cpu_info_t *cpuinfo);
 
-flags_register_t check_flag(int flag);
+bool is_flag_set(int flag);
 
 #define HLT() asm volatile("hlt")
 // flags register macros
@@ -76,5 +76,7 @@ flags_register_t check_flag(int flag);
 #define CLI() asm volatile("cli")
 #define STD() asm volatile("std")
 #define CLD() asm volatile("cld")
+#define PUSHFD() asm volatile("pushfd")
+#define POPFD() asm volatile("popfd")
 
 #endif // _X86_CPU_CPU_H

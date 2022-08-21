@@ -1,21 +1,21 @@
 USAGE OF THIS MAKEFILE:
 
 make
-	No targets: this info screen
-	
-	help:       this info screen
+  No targets: this info screen
+  
+  help:       this info screen
 
-	clean:      cleans up temporary files (object files and binaries)
-	
-	all:        builds the full kernel image (kernel.img)
-	
-	deps:       lists all dependencies this buildsystem requires
-	
-	run:        runs the kernel image inside the emulator with access to
-	            the monitor
-	install-deps: 
-	              runs a small program
-	              in which you'll select your operating system
-	              so the right package manager gets executed.
-				  NOTE: the program might be out of date
-				  so it's recomended you install them on your own.
+  clean:      cleans up temporary files (object files and binaries)
+  
+  all:        builds the full kernel image (kernel.img)
+  
+  deps:       lists all dependencies this buildsystem requires
+  
+  run:        runs the kernel image inside the emulator with access to
+              the monitor
+  install-deps: 
+                runs a small program
+                in which you'll select your operating system
+                so the right package manager gets executed.
+                NOTE: the program might be out of date
+                so it's recomended you install them on your own.

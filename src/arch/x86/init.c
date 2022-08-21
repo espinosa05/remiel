@@ -1,8 +1,7 @@
 // freestanding libs
 #include <stdint.h>
-
 // remiel libs
-#include <remiel/string.h>
+#include <remiel/types/remiel_types.h>
 #include <remiel/init.h>
 #include <remiel/sections/sections.h>
 #include <remiel/kernel_status.h>
@@ -11,52 +10,45 @@
 #include <x86/cpu/cpuid.h>
 #include <x86/graphics/tty.h>
 
+// TODO try making this not extern
 extern tty_controller_t tty;
 
 
-_init KERNEL_STATUS
-kernel_init()
-{
-	struct i386_regs regs[6];
-	// get data from the cpu with this struct
-	cpu_info_t x86_info;
-	int max_cpuid_num;
+_init KERNEL_STATUS kernel_init() {
 
-	tty.set_bg = tty.colors.black;
-	tty.set_fg = tty.colors.yellow;
-	tty.cls();
-	
+  struct i386_regs regs[MAX_CPUID_FUNCTIONS];
+  // get data from the cpu with this struct
+  cpu_info_t x86_features;
+  int max_cpuid_function_number;
+  // array of function pointers for each
+  // cpuid function to process the data
+  void_function_ptr_t get_cpuid_data[MAX_CPUID_FUNCTIONS];
+  // clear the screen
+  tty.set_bg = tty.colors.black;
+  tty.set_fg = tty.colors.yellow;
+  tty.cls();
 
-	regs[0].eax = CPUID_FUNCTION_0;
-	cpuid(&regs[0]);
-	max_cpuid_num = regs[0].eax;
+  if( !is_cpuid_supported() ) {
+    save_tty_colors(tty);
+		tty.set_fg = tty.color.light_red;
+    tty_puts("cpuid is not supported\n");
+		tty_puts("possible 386/486 detected\n")
+		restore_tty_colors(tty);
+	} 
+	else {
+    // cpuid with EAX set to 0 returns the highest cpuid function number
+    regs[0].eax = CPUID_FUNCTION_0;
+    cpuid(&regs[0]);
+    max_cpuid_function_number = regs[0].eax;
 
-	// array of function pointers for each
-	// cpuid function to process the data
-	cpuid_output_converter_t *get_cpuid_data;
-		
-	set_cpuid_functions(get_cpuid_data);
-	
-	for(int i = 0; i <= max_cpuid_num; i++)
-	{
-		get_cpuid_data[i](&x86_info, &regs[i]);
-	}
+    // go through all cpuid functions and extract the needed information
+    // from the register struct
+    for(int i = 1; i <= max_cpuid_function_number; i++) {
+      regs[i].eax = i;
+      cpuid(&regs);
+      get_cpuid_data[i](&x86_features, &regs[i]);
+    }
+  }
 
-		
-
-	tty_puts(x86_info.vendor_string);
-	tty_puts("\n");
-
-	if(false)
-	{
-		tty_puts("features: cpuid");
-		
-	}
-	else
-	{
-		tty_puts("what processor are you using my guy?\nwtf it's 2022");		
-	}
-
-	return 0;
+  return status;
 }
-

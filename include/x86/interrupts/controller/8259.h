@@ -20,4 +20,6 @@
 #define OCW_2	
 #define OCW_3	
 
+void remap_8259_PIC();
+
 #endif // _X86_INTERRUPTS_CONTROLLER_8259_H

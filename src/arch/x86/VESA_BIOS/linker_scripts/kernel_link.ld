@@ -13,7 +13,13 @@ SECTIONS
 		SHORT(0xaa55); /* BOOT SIGNATURE */
 	
 	}
-	.init : { *(.init) }
+	/* 
+   * all information about the VESA graphics adapter are
+   * stored here
+   * */
+  .vesa_info : { *(.vesa_info) }
+  /*the kernel starts here*/
+  .init : { *(.init) }
 	
 	/* Page aligned sections */
 	.text : ALIGN(0x1000) { *(.text) }

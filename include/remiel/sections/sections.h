@@ -7,6 +7,6 @@
 #define _init __attribute__((section(".init")))
 
 // kernel modules sit in high memory under the kernel.
-// #define __MODULE__ __attribute__((section("module"))) 
+// #define _module __attribute__((section("module"))) 
 
 #endif // _SECTIONS_SECTIONS_H

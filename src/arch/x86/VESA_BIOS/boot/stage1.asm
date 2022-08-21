@@ -1,11 +1,13 @@
 section .init
+; externally linked symbols
 extern kernel_setup
+extern INITIAL_DATA_SEGMENT
 
 global _entry32
 _entry32:
 	; we can't set the segment registers directly
 	; so we do it through ax
-	mov ax, 0x10
+	mov ax, INITIAL_DATA_SEGMENT ; relative offset inside th
 	mov ds, ax
 	mov ss, ax
 	mov es, ax
@@ -18,21 +20,21 @@ _entry32:
 
 	mov es:di, eax
 	; es:di holds the address of the vbe structure
-	;mov es:di, DWORD vesa_info_block_structure
+	; mov es:di, DWORD vesa_info_block_structure
 	mov esp, _stack_top
 	push DWORD es:di
 	call kernel_setup
-	
-hlt:
-hlt
-jmp hlt
-;
+
+global halt_cpu
+halt_cpu:
+  cli ; if the flag is not set we disable it
+  hlt
+  jmp halt_cpu ; just for safety measures
+
 ; set the initial stack
 section .bss
 _stack_bottom:
-	resb (1024 * 2) ; reserve 16 KB for the stack pointer
+	resb (1024 * 4) ; reserve 4 KB for the stack pointer
 _stack_top:
-section .init
 
-%include "vga_struct.asm"
-%include "vbe_struct.asm"
+
