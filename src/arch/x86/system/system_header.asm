@@ -1,0 +1,2 @@
+global _optimized_memset
+global _optimized_memcpy
