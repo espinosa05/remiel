@@ -63,8 +63,7 @@ edd_not_supported:
   jmp halt_cpu
 
 disk_error:
-
-	mov eax, DISK_ERROR ; 0xDE
+  mov eax, DISK_ERROR ; 0xDE
   jmp halt_cpu
 
 ; data storage
