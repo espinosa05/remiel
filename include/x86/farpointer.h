@@ -11,7 +11,7 @@ typedef struct
 __attribute__((packed))far_ptr_t;
 
 
-inline uint32_t
+ __attribute__((always_inline)) inline uint32_t
 translate_far_ptr(far_ptr_t far)
 {
 	return (far.base + far.offset);
