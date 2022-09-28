@@ -2,7 +2,7 @@
 #include <x86/cpu/gdt.h>
 
 
-void set_idt_entry(struct idt_entry *idt_descriptor, uint32_t *handler_address_32, uint8_t attributes) {
+void set_idt_entry(struct idt_entry *idt_descriptor, void (*handler_address_32) (void), uint8_t attributes) {
   
   idt_descriptor->offset_low = ((0xffff << 16) & handler_address_32);
   idt_descriptor->code_segment_selector = KERNEL_CODE_SEGMENT_SELECTOR;
