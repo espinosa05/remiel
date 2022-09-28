@@ -3,7 +3,7 @@
 
 #define HEX_CHARS		"0123456789abcdef"
 #define DEC_CHARS		"0123456789"
-#define CAPITALISE_HEX	0x20 // we need to subtract 32 from the hex chars,
+#define CAPITALISE	0x20 // we need to subtract 32 from the hex chars,
 							 // starting from index 10 (a),
 							 // to get the capitalized ASCII values
 
