@@ -20,7 +20,7 @@
 
 tty_controller_t tty;
 
-_Noreturn _init void kernel_setup() {
+_Noreturn _init void kernel_setup(farptr_t vesa_info_block) {
   
   KERNEL_STATUS kernel_status;
   uint32_t eflags_register;
