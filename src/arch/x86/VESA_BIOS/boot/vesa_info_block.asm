@@ -4,8 +4,8 @@ section .vesa_info
 ; this 512 byte long structure holds information about the structure
 global vesa_info_block
 vesa_info_block:
-	.signature:		  dd "VBE2"
-	.vbe_version:   dd 0
+  .signature:		  dd "VBE2"
+  .vbe_version:   dd 0
   .oem_base:      dw 0
   .oem_offset:    dw 0
   .capabilities:  dd 0
